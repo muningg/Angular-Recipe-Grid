@@ -1,0 +1,58 @@
+<nav class="navbar">
+  <div class="navbar__brand">Recipes List</div>
+  <div class="navbar__view-controls">
+    <button 
+      [class.navbar__button--active]="currentView === 'mobile'"
+      (click)="setView('mobile')" 
+      class="navbar__button">
+      Mobile
+    </button>
+    <button 
+      [class.navbar__button--active]="currentView === 'tablet'"
+      (click)="setView('tablet')" 
+      class="navbar__button">
+      Tablet
+    </button>
+    <button 
+      [class.navbar__button--active]="currentView === 'desktop'"
+      (click)="setView('desktop')" 
+      class="navbar__button">
+      Desktop
+    </button>
+  </div>
+</nav>
+
+<div class="recipe-grid" [class]="'recipe-grid--' + currentView">
+  <div class="recipe-card" *ngFor="let recipe of recipes">
+    <div class="recipe-card__image">
+      <img [src]="recipe.image" [alt]="recipe.name">
+      <div *ngIf="recipe.isTrending" class="trending-badge">
+        Trending!
+      </div>
+    </div>
+    <div class="recipe-card__content">
+      <h3 class="recipe-card__title">{{ recipe.name }}</h3>
+      <p class="recipe-card__description">{{ recipe.description }}</p>
+      
+      <div class="recipe-card__info">
+        <div class="reviews">
+          <span class="reviews-count">{{ recipe.reviews }} Reviews</span>
+        </div>
+        <button 
+          class="ingredients-toggle"
+          (click)="toggleIngredients(recipe.id)">
+          {{ expandedRecipeId === recipe.id ? 'Hide' : 'Show' }} Ingredients
+        </button>
+      </div>
+
+      <div class="ingredients-list" *ngIf="expandedRecipeId === recipe.id">
+        <h4>Ingredients:</h4>
+        <ul>
+          <li *ngFor="let ingredient of recipe.ingredients">
+            {{ ingredient }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
